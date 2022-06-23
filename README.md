@@ -16,3 +16,9 @@
 ## 학습 환경 (Training Environment)
 - Colab... 
 - Colab Pro (도중에 Pro로 바꿔 진행했습니다)
+
+## 학습 전략 (Training Strategy)
+### Augmentation
+
+
+
