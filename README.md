@@ -2,12 +2,15 @@
 
 ## 주요 파라미터(Main Parameters)
 - Epoch : Total 30 Epochs  
-          ~10 : For the First Training
-          ~20 : More Data Training (I added datas twice the size of the previous model..)
-          ~30 : 
+          ~10 : For the First Training  
+          ~20 : + More Data Training (I added datas twice the size of the previous model..)  
+          ~30 : + More Random Augmentation   
 - Optimizer : AdamW
-- lr_scheduler : Depreciated (not performed well..) 
+- lr : 1e-4
+- weight_decay : 1e-3
+- lr_scheduler : CosineAnnealingWarmRestarts -> Depreciated (not performed well..) 
 - Batch Size : 32
+- Loss Function : Focal Loss -> CrossEntropyLoss (There was no difference in performance)
 
 ## 사용한 모델 (Classification Model)
 - 컴퓨팅 파워의 한계로 아래의 모델을 사용했습니다.
@@ -20,6 +23,10 @@
 
 ## 학습 전략 (Training Strategy)
 ### Augmentation
+- 자체적 Over + Under Sampling 을 실시했습니다.  
+  목적은 최대한 정상 데이터와 이상치들이 "비슷한 수를 유지"하는 것이었습니다.
+  이를 위해 적당한 배수를 지정하여 해당 수에 맞게 이상치 data를 복사하고 정상치 데이터를 삭제합니다.  
+    
 - 사용한 Transforms  
 
           train_transform = transforms.Compose([
@@ -38,6 +45,7 @@
   "같은 이미지라도 Random으로 Augmentation되면 모델 입장에선 충분히 다른 이미지로 생각하고 학습할 것이다!"
   였습니다.
 - 때문에 Random 요소가 많은 Transforms를 많이 사용했습니다.
+- 위와 같은 Augmenatation 전략은 모델 성능에 꽤 큰 향상을 가져왔습니다.
 
 ### Ensemble 
 - 학습된 EFN V2 B3와 EFN V1 B3를 각각 앙상블 시켰습니다.
